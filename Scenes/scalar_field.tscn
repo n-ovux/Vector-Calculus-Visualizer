@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://ck47na06bgbkg"]
+
+[ext_resource type="Shader" uid="uid://lt7mp3vrbjf2" path="res://Scripts/remap_color.gdshader" id="1_44d4d"]
+[ext_resource type="Gradient" uid="uid://c6sg3gx6pv8j6" path="res://Texture Resources/gradient.tres" id="2_44d4d"]
+[ext_resource type="Script" uid="uid://digksj24qamib" path="res://Scripts/scalar_field.gd" id="3_yfbqn"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1iqvo"]
+gradient = ExtResource("2_44d4d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u588v"]
+shader = ExtResource("1_44d4d")
+shader_parameter/gradient = SubResource("GradientTexture1D_1iqvo")
+
+[node name="Scalar Field" type="Sprite2D"]
+z_index = -1
+material = SubResource("ShaderMaterial_u588v")
+script = ExtResource("3_yfbqn")
