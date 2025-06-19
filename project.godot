@@ -15,6 +15,10 @@ run/main_scene="uid://ckohuc05oul4t"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/name="Testing"
 
+[autoload]
+
+Paths="*res://Paths.gd"
+
 [display]
 
 window/size/viewport_width=900

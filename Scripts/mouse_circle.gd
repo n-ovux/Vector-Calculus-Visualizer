@@ -3,7 +3,6 @@ extends Polygon2D
 signal drawing
 
 const scale_factor: float = 5
-var enabled: bool = true
 
 func generate_polygon() -> void:
 	# generate circle vertices
@@ -24,9 +23,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if !enabled:
-		pass
-	position = get_viewport().get_mouse_position()
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		color = Color(1, 0, 0, 1)
 		drawing.emit(true, scale.x, position, delta)
@@ -36,9 +32,7 @@ func _process(delta: float) -> void:
 	else:
 		color = Color(1, 1, 1, 1)
 
-func _input(event: InputEvent) -> void:
-	if !enabled:
-		pass
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP && scale.x < 100:
 			scale += scale_factor * log(scale.x) * Vector2.ONE
@@ -49,4 +43,6 @@ func _input(event: InputEvent) -> void:
 			scale = Vector2(10, 10)
 
 		generate_polygon()
+	elif event is InputEventMouseMotion:
+		position = event.position
 

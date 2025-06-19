@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ckohuc05oul4t"]
 
-[ext_resource type="Texture2D" uid="uid://c41u0m4qt800m" path="res://Texture Resources/mouse.tres" id="1_8pvmw"]
+[ext_resource type="Texture2D" uid="uid://c41u0m4qt800m" path="res://Textures/mouse.tres" id="1_8pvmw"]
 [ext_resource type="Script" uid="uid://dcp65xyu5hw14" path="res://Scripts/root.gd" id="1_vnucn"]
 [ext_resource type="Script" uid="uid://dn13hwn3dl0i6" path="res://Scripts/mouse_circle.gd" id="2_vnucn"]
 [ext_resource type="Script" uid="uid://i1l548s8l378" path="res://Scripts/find_gradient.gd" id="4_c3mwy"]
@@ -12,6 +12,7 @@ font_size = 31
 script = ExtResource("1_vnucn")
 
 [node name="UI" type="Control" parent="."]
+z_index = 5
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
