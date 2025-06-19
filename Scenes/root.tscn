@@ -44,7 +44,7 @@ label_settings = SubResource("LabelSettings_o3jxj")
 [node name="Field List" type="PanelContainer" parent="UI"]
 layout_mode = 0
 offset_top = 54.0
-offset_right = 310.0
+offset_right = 354.0
 offset_bottom = 209.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Field List"]
@@ -76,3 +76,5 @@ script = ExtResource("4_4g5cr")
 [connection signal="add_field" from="." to="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" method="_on_root_add_field"]
 [connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Scalar Field" to="." method="_on_create_scalar_field_pressed"]
 [connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Vector Field" to="." method="_on_create_vector_field_pressed"]
+[connection signal="calculate_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_calculate_field"]
+[connection signal="delete_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_delete_field"]
