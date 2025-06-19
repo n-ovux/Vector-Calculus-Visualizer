@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvtjdoh02r8g"]
+
+[ext_resource type="Texture2D" uid="uid://0koeeikh28bg" path="res://Textures/grad.png" id="1_hit0g"]
+[ext_resource type="Texture2D" uid="uid://c3pnu5qlod12i" path="res://Textures/div.png" id="1_vt32d"]
+[ext_resource type="Texture2D" uid="uid://seftyy2bqi7h" path="res://Textures/curl.png" id="3_6r4jv"]
+
+[node name="Field Item" type="PanelContainer"]
+offset_right = 335.0
+offset_bottom = 45.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Field Name
+"
+
+[node name="Gradient" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+disabled = true
+icon = ExtResource("1_hit0g")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Divergence" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+disabled = true
+icon = ExtResource("1_vt32d")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Curl" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+disabled = true
+icon = ExtResource("3_6r4jv")
+icon_alignment = 1
+expand_icon = true

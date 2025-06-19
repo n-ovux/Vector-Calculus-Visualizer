@@ -3,13 +3,13 @@ extends Node2D
 var data: Image
 var screen_width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
 var screen_height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
-var amount: Vector2i = Vector2i(10, 10)
+@export var amount: Vector2i = Vector2i(50, 50)
 
 
 func _ready() -> void:
 	var rd := RenderingServer.create_local_rendering_device()
 
-	var shader_file: Resource = load(Paths.shaders_path + "testing.glsl")
+	var shader_file: Resource = load(Paths.shaders_path + "gradient.glsl")
 	var shader_sprirv: RDShaderSPIRV = shader_file.get_spirv()
 	var shader: RID = rd.shader_create_from_spirv(shader_sprirv)
 	var pipeline: RID = rd.compute_pipeline_create(shader)
@@ -61,22 +61,27 @@ func _ready() -> void:
 	rd.submit()
 	rd.sync()
 
-	var sprite: Sprite2D = Sprite2D.new()
-	add_child(sprite)
-	sprite.position = Vector2(screen_width / 2.0, screen_height / 2.0)
 	data = Image.create_from_data(
 		screen_width, screen_height, false, Image.FORMAT_RGF, rd.texture_get_data(output_id, 0)
 	)
-	sprite.texture = ImageTexture.create_from_image(data)
 
-	# var arrows: Array = Array([], TYPE_OBJECT, "Sprite2D", null)
-	# arrows.resize(amount.x * amount.y)
-	#
-	# for x in amount.x:
-	# 	for y in amount.y:
-	# 		var index: int = y + amount.y * x
-	# 		arrows[index] = Sprite2D.new()
-	# 		arrows[index].texture = load("res://Texture Resources/arrow.svg")
-	# 		arrows[index].scale = 0.02*Vector2.ONE
-	# 		arrows[index].position = Vector2(screen_width*(float(x)/amount.x), screen_height*(float(y)/amount.y)) + Vector2(screen_width/(2.0*amount.x), screen_height/(2.0*amount.y))
-	# 		add_child(arrows[index])
+	var arrows: Array = Array([], TYPE_OBJECT, "Sprite2D", null)
+	arrows.resize(amount.x * amount.y)
+
+	for x in amount.x:
+		for y in amount.y:
+			var index: int = y + amount.y * x
+			arrows[index] = Sprite2D.new()
+			arrows[index].texture = load(Paths.textures_path + "arrow.svg")
+			var coordinate: Vector2i = (
+				Vector2(screen_width * (float(x) / amount.x), screen_height * (float(y) / amount.y))
+				+ Vector2(screen_width / (2.0 * amount.x), screen_height / (2.0 * amount.y))
+			)
+			var sample: Vector2 = Vector2(
+				data.get_pixelv(coordinate).r, data.get_pixelv(coordinate).g
+			)
+			var magnetude: float = clamp(sample.length(), 0, 0.02)
+			arrows[index].scale = magnetude * Vector2.ONE
+			arrows[index].position = coordinate
+			arrows[index].rotation = atan2(sample.y, sample.x)
+			add_child(arrows[index])

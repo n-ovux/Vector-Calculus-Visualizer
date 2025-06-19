@@ -3,8 +3,9 @@ extends Sprite2D
 var data: Image
 var screen_width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
 var screen_height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
+var draw_speed: float = 3
 
-@export var draw_speed: float = 3
+var selected: bool = false
 
 
 func circle(location: Vector2, radius: float, color: Color) -> void:
@@ -35,6 +36,8 @@ func _ready() -> void:
 
 
 func _on_draw(adding: bool, size: float, location: Vector2, delta_time: float) -> void:
+	if !selected:
+		pass
 	if adding:
 		circle(location, size, Color(draw_speed * delta_time, 0, 0, 0))
 	else:

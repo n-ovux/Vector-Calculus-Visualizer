@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c41u0m4qt800m" path="res://Textures/mouse.tres" id="1_8pvmw"]
 [ext_resource type="Script" uid="uid://dcp65xyu5hw14" path="res://Scripts/root.gd" id="1_vnucn"]
 [ext_resource type="Script" uid="uid://dn13hwn3dl0i6" path="res://Scripts/mouse_circle.gd" id="2_vnucn"]
-[ext_resource type="Script" uid="uid://i1l548s8l378" path="res://Scripts/find_gradient.gd" id="4_c3mwy"]
+[ext_resource type="Script" uid="uid://bgvtoscjedxq3" path="res://Scripts/Field_List_Manager.gd" id="4_4g5cr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o3jxj"]
 font_size = 31
@@ -24,39 +24,55 @@ texture = ExtResource("1_8pvmw")
 texture_scale = Vector2(22, 22)
 script = ExtResource("2_vnucn")
 
-[node name="PanelContainer" type="PanelContainer" parent="UI"]
+[node name="Title" type="PanelContainer" parent="UI"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 392.0
+offset_bottom = 54.0
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Title"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="UI/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Title" type="Label" parent="UI/Title/MarginContainer"]
 layout_mode = 2
 text = "Vector Calculus Visualizer"
 label_settings = SubResource("LabelSettings_o3jxj")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Field List" type="PanelContainer" parent="UI"]
+layout_mode = 0
+offset_top = 54.0
+offset_right = 310.0
+offset_bottom = 209.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/Field List"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Create Buttons" type="HBoxContainer" parent="UI/Field List/VBoxContainer2"]
 layout_mode = 2
 
-[node name="Create Scalar Field" type="Button" parent="UI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Create Scalar Field" type="Button" parent="UI/Field List/VBoxContainer2/Create Buttons"]
 layout_mode = 2
 text = "Create Scalar Field"
 
-[node name="Find Gradient" type="Button" parent="UI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Create Vector Field" type="Button" parent="UI/Field List/VBoxContainer2/Create Buttons"]
 layout_mode = 2
-disabled = true
-text = "Find Gradient Field"
-script = ExtResource("4_c3mwy")
+text = "Create Vector Field"
 
-[connection signal="created_scalar_field" from="." to="UI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/Find Gradient" method="_on_root_created_scalar_field"]
-[connection signal="pressed" from="UI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/Create Scalar Field" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="UI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/Find Gradient" to="." method="_on_find_gradient_pressed"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Field List/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 116.53)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Fields List" type="VBoxContainer" parent="UI/Field List/VBoxContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_4g5cr")
+
+[connection signal="add_field" from="." to="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" method="_on_root_add_field"]
+[connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Scalar Field" to="." method="_on_create_scalar_field_pressed"]
+[connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Vector Field" to="." method="_on_create_vector_field_pressed"]

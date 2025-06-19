@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dek6fiurw1861"
+path="res://.godot/imported/gradient.glsl-c43539af86ef7260f34abb3833a68fa1.res"
+
+[deps]
+
+source_file="res://Scripts/Shaders/gradient.glsl"
+dest_files=["res://.godot/imported/gradient.glsl-c43539af86ef7260f34abb3833a68fa1.res"]
+
+[params]
+

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://gyyvt4kfjxi8"]
+
+[ext_resource type="Script" uid="uid://dss78jul5slt3" path="res://Scripts/gradient_field.gd" id="1_0r46l"]
+
+[node name="Vector Field" type="Node2D"]
+z_index = -1
+script = ExtResource("1_0r46l")
