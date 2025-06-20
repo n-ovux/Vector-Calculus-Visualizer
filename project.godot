@@ -17,7 +17,7 @@ run/name="Testing"
 
 [autoload]
 
-Paths="*res://Paths.gd"
+Globals="*res://Scripts/Globals.gd"
 
 [display]
 

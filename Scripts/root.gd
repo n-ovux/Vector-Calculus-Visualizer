@@ -12,9 +12,9 @@ func _ready() -> void:
 func create_field(is_scalar: bool) -> Node:
 	var field: Node
 	if is_scalar:
-		field = load(Paths.scenes_path + "scalar_field.tscn").instantiate()
+		field = load(Globals.scenes_path + "scalar_field.tscn").instantiate()
 	else:
-		field = load(Paths.scenes_path + "vector_field.tscn").instantiate()
+		field = load(Globals.scenes_path + "vector_field.tscn").instantiate()
 	fields.append(field)
 	add_child(field)
 	add_field.emit(is_scalar)
@@ -38,3 +38,14 @@ func _on_calculate_field(id: int, type: int) -> void:
 func _on_delete_field(id: int) -> void:
 	var field: Node = fields.pop_at(id)
 	field.queue_free()
+
+
+func _on_select_field(id: int, toggled_on: bool) -> void:
+	if toggled_on:
+		for i in range(fields.size()):
+			fields[i].selected = false
+	fields[id].selected = toggled_on
+
+
+func _on_view_field(id: int, toggled_on: bool) -> void:
+	fields[id].visible = toggled_on

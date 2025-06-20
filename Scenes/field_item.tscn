@@ -14,17 +14,26 @@ script = ExtResource("1_6r4jv")
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="TextEdit" type="TextEdit" parent="HBoxContainer"]
+[node name="Visible" type="CheckBox" parent="HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Toggle Visiblity
+Max 1 vector field and 1 scalar field."
+
+[node name="Selected" type="CheckBox" parent="HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Select Field
+Allows field to be edited. Max 1 field. "
+
+[node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Field Name
-"
-context_menu_enabled = false
-emoji_menu_enabled = false
+text = "Text"
 
 [node name="Gradient" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
+tooltip_text = "Generate Gradient
+Creates a vector field that is the gradient of this field."
 disabled = true
 icon = ExtResource("1_hit0g")
 icon_alignment = 1
@@ -33,6 +42,8 @@ expand_icon = true
 [node name="Divergence" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
+tooltip_text = "Generate Divergence
+Creates a scalar field that is the divergence of this field."
 disabled = true
 icon = ExtResource("1_vt32d")
 icon_alignment = 1
@@ -41,6 +52,8 @@ expand_icon = true
 [node name="Curl" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
+tooltip_text = "Generate Curl
+Creates a scalar field that is the 2D-curl of this field."
 disabled = true
 icon = ExtResource("3_6r4jv")
 icon_alignment = 1
@@ -49,9 +62,13 @@ expand_icon = true
 [node name="Delete" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
+tooltip_text = "Delete
+Removes this field from the list."
 icon = ExtResource("5_ugbb7")
 expand_icon = true
 
+[connection signal="toggled" from="HBoxContainer/Visible" to="." method="_on_visible_toggled"]
+[connection signal="toggled" from="HBoxContainer/Selected" to="." method="_on_check_box_toggled"]
 [connection signal="pressed" from="HBoxContainer/Gradient" to="." method="_on_gradient_pressed"]
 [connection signal="pressed" from="HBoxContainer/Divergence" to="." method="_on_divergence_pressed"]
 [connection signal="pressed" from="HBoxContainer/Curl" to="." method="_on_curl_pressed"]

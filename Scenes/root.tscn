@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckohuc05oul4t"]
+[gd_scene load_steps=7 format=3 uid="uid://ckohuc05oul4t"]
 
 [ext_resource type="Texture2D" uid="uid://c41u0m4qt800m" path="res://Textures/mouse.tres" id="1_8pvmw"]
 [ext_resource type="Script" uid="uid://dcp65xyu5hw14" path="res://Scripts/root.gd" id="1_vnucn"]
 [ext_resource type="Script" uid="uid://dn13hwn3dl0i6" path="res://Scripts/mouse_circle.gd" id="2_vnucn"]
 [ext_resource type="Script" uid="uid://bgvtoscjedxq3" path="res://Scripts/Field_List_Manager.gd" id="4_4g5cr"]
+[ext_resource type="Script" uid="uid://d3f7iwt5ha17j" path="res://Scripts/camera_2d.gd" id="5_4g5cr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o3jxj"]
 font_size = 31
@@ -73,8 +74,21 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("4_4g5cr")
 
+[node name="ColorRect" type="ColorRect" parent="UI"]
+z_index = -100
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 600.0
+mouse_filter = 2
+color = Color(0.560955, 0.560955, 0.560955, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("5_4g5cr")
+
 [connection signal="add_field" from="." to="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" method="_on_root_add_field"]
 [connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Scalar Field" to="." method="_on_create_scalar_field_pressed"]
 [connection signal="pressed" from="UI/Field List/VBoxContainer2/Create Buttons/Create Vector Field" to="." method="_on_create_vector_field_pressed"]
 [connection signal="calculate_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_calculate_field"]
 [connection signal="delete_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_delete_field"]
+[connection signal="select_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_select_field"]
+[connection signal="view_field" from="UI/Field List/VBoxContainer2/ScrollContainer/Fields List" to="." method="_on_view_field"]

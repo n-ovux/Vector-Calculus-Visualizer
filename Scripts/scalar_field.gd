@@ -6,6 +6,7 @@ var screen_height: int = ProjectSettings.get_setting("display/window/size/viewpo
 var draw_speed: float = 3
 
 var selected: bool = false
+var is_scalar_field: bool = true
 
 
 func circle(location: Vector2, radius: float, color: Color) -> void:
@@ -24,6 +25,7 @@ func circle(location: Vector2, radius: float, color: Color) -> void:
 
 
 func _ready() -> void:
+	visible = false
 	position = Vector2(screen_width / 2.0, screen_height / 2.0)
 
 	data = Image.create_empty(screen_width, screen_height, false, Image.FORMAT_RF)
@@ -31,13 +33,13 @@ func _ready() -> void:
 
 	texture = ImageTexture.create_from_image(data)
 
-	var mouse = get_node(Paths.root + "UI/Mouse")
+	var mouse = get_node(Globals.root + "UI/Mouse")
 	mouse.drawing.connect(_on_draw)
 
 
 func _on_draw(adding: bool, size: float, location: Vector2, delta_time: float) -> void:
 	if !selected:
-		pass
+		return
 	if adding:
 		circle(location, size, Color(draw_speed * delta_time, 0, 0, 0))
 	else:

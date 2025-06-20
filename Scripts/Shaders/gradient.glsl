@@ -17,6 +17,7 @@ void main() {
     vec2 value = vec2(0.0, 0.0);
     value.x = finite_difference(coords, ivec2(1, 0));
     value.y = finite_difference(coords, ivec2(0, 1));
+    value *= 1000;
 
     imageStore(gradient_field, coords, vec4(value, 0.0, 1.0));
 }

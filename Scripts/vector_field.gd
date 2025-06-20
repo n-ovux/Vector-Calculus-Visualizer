@@ -3,8 +3,11 @@ extends Node2D
 var data: Image
 var screen_width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
 var screen_height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
-var amount: Vector2i = Vector2i(50, 50)
-var arrows: Array = Array([], TYPE_OBJECT, "Sprite2D", null)
+var amount: Vector2i = Vector2i(100, 100)
+var arrows: Array = Array([], TYPE_OBJECT, "Line2D", null)
+
+var selected: bool = false
+var is_scalar_field: bool = true
 
 
 func set_arrows():
@@ -18,34 +21,40 @@ func set_arrows():
 			var sample: Vector2 = Vector2(
 				data.get_pixelv(coordinate).r, data.get_pixelv(coordinate).g
 			)
-			var magnetude: float = clamp(sample.length(), 0, 0.02)
-			arrows[index].scale = magnetude * Vector2.ONE
-			arrows[index].rotation = atan2(sample.y, sample.x)
+			sample = sample.limit_length(8)
+			arrows[index].length = sample.length()
+			arrows[index].rotation = sample.angle()
+			arrows[index].resample()
 
 
 func _ready() -> void:
+	visible = false
+
+	data = Image.create_empty(screen_width, screen_height, false, Image.FORMAT_RGF)
+	data.fill(Color(1.0, 0.0, 0.0, 0.0))
+
 	arrows.resize(amount.x * amount.y)
 	for x in amount.x:
 		for y in amount.y:
 			var index: int = y + amount.y * x
-			arrows[index] = Sprite2D.new()
-			arrows[index].texture = load(Paths.textures_path + "arrow.svg")
+			arrows[index] = Line2D.new()
+			arrows[index] = load(Globals.scenes_path + "arrow.tscn").instantiate()
 			var coordinate: Vector2i = (
 				Vector2(screen_width * (float(x) / amount.x), screen_height * (float(y) / amount.y))
 				+ Vector2(screen_width / (2.0 * amount.x), screen_height / (2.0 * amount.y))
 			)
 			arrows[index].position = coordinate
 			add_child(arrows[index])
-
-	data = Image.create_empty(screen_width, screen_height, false, Image.FORMAT_RGF)
-
 	set_arrows()
+
+	var mouse = get_node(Globals.root + "UI/Mouse")
+	mouse.drawing.connect(_on_draw)
 
 
 func find_gradient(scalar_field: Image):
 	var rd := RenderingServer.create_local_rendering_device()
 
-	var shader_file: Resource = load(Paths.shaders_path + "gradient.glsl")
+	var shader_file: Resource = load(Globals.shaders_path + "gradient.glsl")
 	var shader_sprirv: RDShaderSPIRV = shader_file.get_spirv()
 	var shader: RID = rd.shader_create_from_spirv(shader_sprirv)
 	var pipeline: RID = rd.compute_pipeline_create(shader)
@@ -101,4 +110,24 @@ func find_gradient(scalar_field: Image):
 		screen_width, screen_height, false, Image.FORMAT_RGF, rd.texture_get_data(output_id, 0)
 	)
 
+	set_arrows()
+
+
+func _on_draw(adding: bool, size: float, location: Vector2, delta_time: float) -> void:
+	if !selected:
+		return
+	var mouse_speed: Vector2 = Input.get_last_mouse_velocity()
+	for x in range(
+		clamp(location.x - size, 0, screen_width), clamp(location.x + size, 0, screen_width)
+	):
+		for y in range(
+			clamp(location.y - size, 0, screen_height), clamp(location.y + size, 0, screen_height)
+		):
+			var distance: float = sqrt(pow(x - location.x, 2) + pow(y - location.y, 2))
+			var factor: float = lerpf(1, 0, ease(clamp(distance / size, 0, 1), -1.6))
+			var value: Vector2 = factor * mouse_speed
+			var current_value: Color = data.get_pixel(x, y)
+			value += Vector2(current_value.r, current_value.g)
+			value.clamp(Vector2.ZERO, Vector2.ONE)
+			data.set_pixel(x, y, Color(value.x, value.y, 0, 0))
 	set_arrows()
